@@ -14,7 +14,6 @@ This is focused on a web application for publishing and reading articles. It all
 
 ## Installation
 Run the following commands:
-Note, please do a ```cd dnw-coursework-template-main``` command first before running any commands
 1. ```npm install```
 2. ```npm run build-db```
 3. ```npm run start```
