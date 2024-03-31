@@ -1,6 +1,5 @@
-# Blogging Tool development with Express.js and SQLite
-
-Developed a feature-rich blogging tool encompassing user authentication, CRUD operations, and dynamic page rendering, SQLite for data storage, and various middleware packages for enhanced functionality.
+# Project Name
+SribbleBlog
 
 ## Table of Contents
 - [Description](#description)
@@ -11,7 +10,7 @@ Developed a feature-rich blogging tool encompassing user authentication, CRUD op
 - [Done By](#done-by)
 
 ## Description
-This project is focused on a web application for publishing and reading articles. It allows authors to write and publish articles, which can then be viewed by readers on the platform. Authors can manage their drafts and published articles, while readers can explore and interact with the published articles.
+This is focused on a web application for publishing and reading articles. It allows authors to write and publish articles, which can then be viewed by readers on the platform. Authors can manage their drafts and published articles, while readers can explore and interact with the published articles.
 
 ## Installation
 Run the following commands:
