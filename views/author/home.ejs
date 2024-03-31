@@ -1,0 +1,299 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>
+        <%= title %>
+    </title>
+</head>
+
+<body>
+    <div class="nav-bar">
+        <a href="/author/home"><i class="fa fa-fw fa-fan"></i> ScribbleBlog</a>
+        <div class="dropdown" style="float:right">
+            <button class="drop-btn"><i class="fa fa-fw fa-user">
+                </i>
+                <%= full_name %><i class="fa fa-fw fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="/author/settings">Settings</a>
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+    </div>
+    <div class="home-page">
+        <div class="settings-and-table">
+            <h2>
+                <%= blog_title %>
+            </h2>
+            <h3>
+                <%= blog_subtitle %>
+            </h3>
+            <% if (!blog_title || !blog_subtitle) { %>
+                <div class="info">
+                    <p><strong>Note:</strong> Blog title and blog subtitle are yet to be configured. To configure, go to
+                        <i>Settings > Blog</i>.
+                    </p>
+                </div>
+                <% } %>
+        </div>
+        <!-- Draft articles -->
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="table-heading">
+                    <h2>Draft articles</h2>
+                    <button type="button" class="new-draft-btn" id="newDraftBtn"><i class="fa fa-fw fa-plus"></i> New
+                        Draft</button>
+                    <!-- New draft modal -->
+                    <div id="modalOverlayAdd">
+                        <div id="modalContentAdd">
+                            <div class="create-heading">
+                                <h2>New draft article</h2>
+                                <i i class="fa fa-fw fa-xmark" id="closeModalButtonAdd"></i>
+                            </div>
+                            <div class="create-container">
+                                <form method="POST" action="/createDraft">
+                                    <div class="row">
+                                        <div class="col-25">
+                                            <label for="title">Title</label>
+                                        </div>
+                                        <div class="col-75">
+                                            <input type="text" id="title" name="title" placeholder="Article title...">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-25">
+                                            <label for="subtitle">Subtitle</label>
+                                        </div>
+                                        <div class="col-75">
+                                            <input type="text" id="subtitle" name="subtitle"
+                                                placeholder="Article Subtitle...">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-25">
+                                            <label for="article_body">Body</label>
+                                        </div>
+                                        <div class="col-75">
+                                            <textarea id="article_body" name="article_body"
+                                                placeholder="Write article body..." style="height:200px"></textarea>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <input type="submit" value="Create">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Subtitle</th>
+                        <th>Creation Date</th>
+                        <th>Last Modified</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (articles.length===0) { %>
+                        <tr>
+                            <td colspan="5">No articles found.</td>
+                        </tr>
+                        <% } else { %>
+                            <% articles.forEach((article)=> { %>
+                                <% if (article.status===0) { %>
+                                    <tr>
+                                        <td>
+                                            <%= article.title %>
+                                        </td>
+                                        <td>
+                                            <%= article.subtitle %>
+                                        </td>
+                                        <td>
+                                            <%= article.creation %>
+                                        </td>
+                                        <td>
+                                            <%= article.last_modified %>
+                                        </td>
+                                        <td>
+                                            <div class="actions-forms">
+                                                <button type="submit" title="Edit article" id="editDraftBtn">
+                                                    <i class="fa fa-fw fa-pen-to-square"></i>
+                                                </button>
+                                                <!-- Edit draft modal -->
+                                                <div id="modalOverlayEdit">
+                                                    <div id="modalContentEdit">
+                                                        <div class="edit-heading">
+                                                            <h2>Edit article</h2>
+                                                            <i i class="fa fa-fw fa-xmark"
+                                                                id="closeModalButtonEdit"></i>
+                                                        </div>
+                                                        <div class="edit-container">
+                                                            <form method="POST"
+                                                                action="/editDraft/<%= article.article_id %>">
+                                                                <div class="row">
+                                                                    <div class="col-25">
+                                                                        <label for="title">Title</label>
+                                                                    </div>
+                                                                    <div class="col-75">
+                                                                        <input type="text" id="title" name="title"
+                                                                            value="<%= article.title %>">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-25">
+                                                                        <label for="subtitle">Subtitle</label>
+                                                                    </div>
+                                                                    <div class="col-75">
+                                                                        <input type="text" id="subtitle" name="subtitle"
+                                                                            value="<%= article.subtitle %>">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-25">
+                                                                        <label for="article_body">Body</label>
+                                                                    </div>
+                                                                    <div class="col-75">
+                                                                        <textarea id="article_body" name="article_body"
+                                                                            style="height:200px"><%= article.article_body %></textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <br>
+                                                                <div class="row">
+                                                                    <input type="submit" value="Save changes">
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <form action="/publish/<%= article.article_id %>" method="post"
+                                                    onsubmit="return confirmPublish('<%= article.title %>');">
+                                                    <button type="submit" title="Publish article">
+                                                        <i class="fa fa-fw fa-upload"></i>
+                                                    </button>
+                                                </form>
+                                                <form action="/delete/<%= article.article_id %>" method="post"
+                                                    onsubmit="return confirmDelete('<%= article.title %>');">
+                                                    <button type="submit" title="Delete article">
+                                                        <i class="fa fa-fw fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                        <% }); %>
+                                            <% } %>
+                </tbody>
+            </table>
+        </div>
+        <!-- Published articles -->
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="table-heading">
+                    <h2>Published articles</h2>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Subtitle</th>
+                        <th>Creation Date</th>
+                        <th>Published</th>
+                        <th>Likes</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (articles.length===0) { %>
+                        <tr>
+                            <td colspan="6">No articles found.</td>
+                        </tr>
+                        <% } else { %>
+                            <% articles.forEach((article)=> { %>
+                                <% if (article.status===1) { %>
+                                    <tr>
+                                        <td>
+                                            <%= article.title %>
+                                        </td>
+                                        <td>
+                                            <%= article.subtitle %>
+                                        </td>
+                                        <td>
+                                            <%= article.creation %>
+                                        </td>
+                                        <td>
+                                            <%= article.published %>
+                                        </td>
+                                        <td>
+                                            <%= article.likes %>
+                                        </td>
+                                        <td>
+                                            <div class="actions-forms">
+                                                <button type="submit" title="Share article"
+                                                    onclick="shareArticle('<%= article.article_id %>')">
+                                                    <i class="fa fa-fw fa-share-nodes"></i>
+                                                </button>
+                                                <form action="/delete/<%= article.article_id %>" method="post"
+                                                    onsubmit="return confirmDelete('<%= article.title %>');">
+                                                    <button type="submit" title="Delete article">
+                                                        <i class="fa fa-fw fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                        <% }); %>
+                                            <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+<script>
+    //Script for create new draft
+    const addNewButton = document.getElementById('newDraftBtn');
+    const modalOverlayAdd = document.getElementById('modalOverlayAdd');
+    addNewButton.addEventListener('click', () => {
+        modalOverlayAdd.style.display = 'block';
+    });
+    const closeModalButtonAdd = document.getElementById('closeModalButtonAdd');
+    closeModalButtonAdd.addEventListener('click', () => {
+        modalOverlayAdd.style.display = 'none';
+    });
+
+    //Script for edit draft
+    const editButton = document.getElementById("editDraftBtn");
+    const modalOverlay = document.getElementById("modalOverlayEdit");
+    const closeModalButton = document.getElementById("closeModalButtonEdit");
+    editButton.addEventListener("click", () => {
+        modalOverlay.style.display = "block";
+    });
+    closeModalButton.addEventListener("click", () => {
+        modalOverlay.style.display = "none";
+    });
+
+    // Confirmation for publishing
+    function confirmPublish(articleTitle) {
+        return confirm("Are you sure you want to publish the article " + articleTitle + "?");
+    }
+    // Confirmation for deleting
+    function confirmDelete(articleTitle) {
+        return confirm("Are you sure you want to delete " + articleTitle + " article?");
+    }
+    //Confirmation for sharing link
+    function shareArticle(articleId) {
+        var articleURL = 'http://localhost:8000/reader/article/' + articleId + '?';
+        return alert("Link to article: " + articleURL);
+    }
+</script>
+
+</html>

@@ -1,0 +1,60 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>
+        <%= website_title %>
+    </title>
+</head>
+
+<body>
+    <div class="nav-bar">
+        <a href="/reader/home"><i class="fa fa-fw fa-fan"></i> ScribbleBlog</a>
+        <div class="dropdown" style="float:right">
+            <button class="drop-btn"><i class="fa fa-fw fa-user">
+                </i>
+                <%= full_name %><i class="fa fa-fw fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+    </div>
+    <div class="home-page">
+        <!-- Displaying all published articles -->
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="table-heading">
+                    <h2>Published articles</h2>
+                </div>
+                <% if (articles.length===0) { %>
+                    <p>No available published articles at this moment.</p>
+                    <% } else { %>
+                        <div class="article-container">
+                            <% articles.forEach((article)=> { %>
+                                <form method="GET" action="/reader/article/<%= article.article_id %>">
+                                    <button class="article-wrapper">
+                                        <h3>
+                                            <%= article.title %>
+                                        </h3>
+                                        <h4>
+                                            <%= article.subtitle %>
+                                        </h4>
+                                        <h5> Written by:
+                                            <%= article.full_name %>
+                                        </h5>
+                                        <h5>
+                                            <%= article.formatted_published %>
+                                        </h5>
+                                    </button>
+                                </form>
+                                <% }); %>
+                                    <% } %>
+                        </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

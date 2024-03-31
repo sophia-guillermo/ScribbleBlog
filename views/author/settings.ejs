@@ -1,0 +1,57 @@
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="nav-bar">
+        <a href="/author/home"><i class="fa fa-fw fa-fan"></i> ScribbleBlog</a>
+        <div class="dropdown" style="float:right">
+            <button class="drop-btn"><i class="fa fa-fw fa-user">
+                </i>
+                <%= full_name %><i class="fa fa-fw fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="/author/settings">Settings</a>
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+    </div>
+    <div class="settings-container">
+        <form id="blog-settings" class="settings-form-box" method="POST" action="/blogSaved" onsubmit="return confirmationMessage();">
+            <h2>Blog Settings</h2>
+            <div class="settings-row">
+                <div class="settings-col-25">
+                    <label for="blog_title">Blog title</label>
+                </div>
+                <div class="settings-col-75">
+                    <input type="text" id="blog_title" name="blog_title" value="<%= blog_title %>">
+                </div>
+            </div>
+            <div class="settings-row">
+                <div class="settings-col-25">
+                    <label for="blog_subtitle">Blog subtitle</label>
+                </div>
+                <div class="settings-col-75">
+                    <input type="text" id="blog_subtitle" name="blog_subtitle" value="<%= blog_subtitle %>">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <input type="submit" value="Save changes">
+            </div>
+        </form>
+    </div>    
+</body>
+<script>
+    function confirmationMessage() {
+        alert("Blog title and subtitle updated successfully!");
+        return true;
+    }
+    </script>
+</html>

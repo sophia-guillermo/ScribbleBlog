@@ -1,0 +1,109 @@
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="landing-page">
+        <div class="lp-about">
+            <h1 class="lp-h1"><i>Empower your thoughts, Share your voice</i></h1>
+            </br>
+            <p class="lp-p">
+                Discover the ultimate self-hosted blogging tool. </br>
+                Seamlessly write, publish, and engage with readers through captivating articles. </br>
+                Join a vibrant community of writers and readers!</br>
+            </p>
+        </div>
+        <div class="register-form-box">
+            <form id="register" class="register-input-group" method="POST" action="/registered">
+                <h2 class="form-h2">Register</h2>
+                <% if (successMessage_register) { %>
+                    <p style="color: green; font-size: 14px;">
+                        <%= successMessage_register %>
+                    </p>
+                    <% } %>
+                        <input type="text" id="full_name" name="full_name" class="input-field" placeholder="Full name"
+                            required title="Full name should have at least 2 characters">
+                        <div class="username-field">
+                            <input type="text" id="username" name="username" class="input-field" placeholder="Username"
+                                required title="Click on the help tip to see username requirements">
+                            <div class="username-help-tip">?</div>
+                        </div>
+                        <div class="username-requirements">
+                            <p class="username-req-p">
+                                Username must contain:<br>
+                                • At least 5 characters<br>
+                                • Only letters and numbers<br>
+                                • No special characters<br>
+                                • No spaces or symbols<br>
+                            </p>
+                        </div>
+                        <div class="password-field">
+                            <input type="password" id="password" name="password" class="input-field"
+                                placeholder="Password" required
+                                title="Click on the help tip to see password requirements">
+                            <div class="show-password">
+                                <i class="fa fa-fw fa-eye-slash" onclick="showPassword()"></i>
+                            </div>
+                            <div class="password-help-tip">?</div>
+                        </div>
+                        <div class="password-requirements">
+                            <p class="password-req-p">
+                                Password must contain:<br>
+                                • At least 8 characters<br>
+                                • Uppercase and lowercase letters<br>
+                                • Numerical characters<br>
+                                • Special characters<br>
+                            </p>
+                        </div>
+                        <div class="role-selection">
+                            <label>Register as: </label>
+                            <input type="radio" name="role" value="author" class="radio-btn" required>Author</input>
+                            <input type="radio" name="role" value="reader" class="radio-btn" required>Reader</input>
+                        </div>
+                        <% if (errorMessage_register) { %>
+                            <p style="color: red; font-size: 14px;">
+                                <%= errorMessage_register %>
+                            </p>
+                            <% } %>
+                                <button type="submit" class="submit-btn">Register</button>
+                                <div class="login-prompt">
+                                    <label>Have an account? </label><a href="/"><u style="color: blue;">Login</u></a>
+                                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+<script>
+    var usernameHelpTip = document.querySelector('.username-help-tip');
+    var usernameRequirements = document.querySelector('.username-requirements');
+    usernameHelpTip.addEventListener('click', function () {
+        usernameRequirements.style.display = usernameRequirements.style.display === 'block' ? 'none' : 'block';
+    });
+    var passwordHelpTip = document.querySelector('.password-help-tip');
+    var passwordRequirements = document.querySelector('.password-requirements');
+    passwordHelpTip.addEventListener('click', function () {
+        passwordRequirements.style.display = passwordRequirements.style.display === 'block' ? 'none' : 'block';
+    });
+    function showPassword() {
+        var userPassword = document.getElementById("password");
+        var icon = document.querySelector(".password-field i");
+        if (userPassword.type === "password") {
+            userPassword.type = "text";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        } else {
+            userPassword.type = "password";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        }
+    }
+</script>
+
+</html>

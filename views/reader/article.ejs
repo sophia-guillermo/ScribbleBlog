@@ -1,0 +1,106 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>
+        <%= website_title %>
+    </title>
+</head>
+
+<body>
+    <div class="nav-bar">
+        <a href="/reader/home"><i class="fa fa-fw fa-fan"></i> ScribbleBlog</a>
+        <div class="dropdown" style="float:right">
+            <button class="drop-btn"><i class="fa fa-fw fa-user">
+                </i>
+                <%= full_name %><i class="fa fa-fw fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+    </div>
+    <div class="home-page">
+        <!-- Displaying individual article -->
+        <div class="individual-articles">
+            <div class="table-wrapper">
+                <div class="row">
+                    <h2>
+                        <%= article_title %>
+                    </h2>
+                    <span id="total-likes">Likes:
+                        <%= likes %>
+                    </span>
+                </div>
+                <h4>
+                    <%= article_subtitle %>
+                </h4>
+                <h5>
+                    <i>
+                        <%= author_name %>,
+                    </i>
+                    <%= article_published %>
+                </h5>
+                <hr class="solid">
+                <p>
+                    <%= article_body %>
+                </p>
+                <hr class="solid1">
+                <div class="like-container">
+                    <p>Give the article a thumbs up or a thumbs down: </p>
+                    <form method="POST" action="/toggle-like/<%= article_id %>">
+                        <input type="hidden" name="liked" value="like">
+                        <button class="like-btn" id="green">
+                            <i class="fa fa-fw fa-thumbs-up" type="hidden"></i>
+                            <span class="like-count">
+                                <%= comments.likes %>
+                            </span>
+                        </button>
+                    </form>
+                    <form method="POST" action="/toggle-dislike/<%= article_id %>">
+                        <input type="hidden" name="disliked" value="dislike">
+                        <button type="submit" class="dislike-btn" id="red">
+                            <i class="fa fa-fw fa-thumbs-down"></i>
+                            <span class="like-count">
+                                <%= comments.dislikes %>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+                <h3>Post a comment</h3>
+                <form class="comment" method="POST" action="/reader/article/<%= article_id %>">
+                    <div class="col-75">
+                        <textarea id="comment_body" name="comment_body" style="height:80px"
+                            placeholder="Enter your comment here..."></textarea>
+                    </div>
+                    <input type="submit" value="Post comment" id="commentSubmit">
+                </form>
+                <h3>Comments</h3>
+                <% if (comments.length===0) { %>
+                    <p>No comments posted for this article.</p>
+                    <% } else { %>
+                        <table class="comments-table">
+                            <tbody>
+                                <% comments.forEach((comment)=> { %>
+                                    <tr>
+                                        <td>
+                                            <div id="profile-pic">
+                                                <div id="initials">
+                                                    <%= comment.user_initials %>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td id="comment-body">
+                                            <%= comment.formatted_posted %><br>
+                                                <%= comment.comment_body %>
+                                        </td>
+                                    </tr>
+                                    <% })%>
+                                        <% } %>
+                            </tbody>
+                        </table>
+            </div>
+        </div>
+</body>
+</html>
